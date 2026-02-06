@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://b3d1d4l5ana45"]
+
+[ext_resource type="Script" uid="uid://b860p735de3yn" path="res://tank.gd" id="1_tank_script"]
+[ext_resource type="Texture2D" uid="uid://bn6yobeaeypbc" path="res://assets/tank_test.png" id="2_tank_texture"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1"]
+atlas = ExtResource("2_tank_texture")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2"]
+atlas = ExtResource("2_tank_texture")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3"]
+atlas = ExtResource("2_tank_texture")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4"]
+atlas = ExtResource("2_tank_texture")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5"]
+atlas = ExtResource("2_tank_texture")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6"]
+atlas = ExtResource("2_tank_texture")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7"]
+atlas = ExtResource("2_tank_texture")
+region = Rect2(96, 0, 16, 16)
+
+[node name="Main" type="Node2D" unique_id=659521943]
+
+[node name="Tank" type="Node2D" parent="." unique_id=810127514]
+position = Vector2(160, 160)
+script = ExtResource("1_tank_script")
+
+[node name="Sprite1" type="Sprite2D" parent="Tank" unique_id=254855700]
+texture = SubResource("AtlasTexture_1")
+
+[node name="Sprite2" type="Sprite2D" parent="Tank" unique_id=953351707]
+position = Vector2(0, -1)
+texture = SubResource("AtlasTexture_2")
+
+[node name="Sprite3" type="Sprite2D" parent="Tank" unique_id=1466593831]
+position = Vector2(0, -2)
+texture = SubResource("AtlasTexture_3")
+
+[node name="Sprite4" type="Sprite2D" parent="Tank" unique_id=816249918]
+position = Vector2(0, -3)
+texture = SubResource("AtlasTexture_4")
+
+[node name="Sprite5" type="Sprite2D" parent="Tank" unique_id=1335269204]
+position = Vector2(0, -4)
+texture = SubResource("AtlasTexture_5")
+
+[node name="TankCannon" type="Sprite2D" parent="Tank" unique_id=1042731394]
+position = Vector2(0, -5)
+texture = SubResource("AtlasTexture_6")
+
+[node name="Sprite6" type="Sprite2D" parent="Tank" unique_id=1954801284]
+position = Vector2(0, -6)
+texture = SubResource("AtlasTexture_7")
+metadata/independent_rotation = true
