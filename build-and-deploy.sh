@@ -15,6 +15,7 @@ POSSIBLE_PATHS=(
     "/c/Godot/Godot_v4.3-stable_win64.exe"
     "/c/Godot/Godot.exe"
     "$LOCALAPPDATA/Godot/Godot.exe"
+    "/c/Program Files (x86)/Steam/steamapps/common/Godot Engine/godot.windows.opt.tools.64.exe"
 )
 
 for path in "${POSSIBLE_PATHS[@]}"; do
