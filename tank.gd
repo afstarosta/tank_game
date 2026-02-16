@@ -6,16 +6,30 @@ extends CharacterBody2D
 
 # Shooting settings
 @export var fire_rate: float = 0.3
+@export var special_fire_rate: float = 0.5
 
 # Tank rotation angle
 var tank_rotation: float = 0.0
 var fire_cooldown: float = 0.0
+var special_fire_cooldown: float = 0.0
+
+# Special shot queue
+var special_shot_queue: Array = []
 
 # Preload projectile scene
 const Projectile = preload("res://projectile.tscn")
+const FastShot = preload("res://fast_shot.tscn")
 
 @onready var objectsToAdjustRotation = get_children()
 @onready var tank_cannon: Sprite2D = $TankCannon
+@onready var pickup_area: Area2D = get_node_or_null("PickupArea")
+
+func _ready() -> void:
+	# Connect pickup area signal
+	if pickup_area:
+		pickup_area.monitoring = true
+		pickup_area.monitorable = true
+		pickup_area.area_entered.connect(_on_power_up_area_entered)
 
 func _process(delta: float) -> void:
 	# Handle rotation (LB/RB bumpers)
@@ -48,6 +62,14 @@ func _process(delta: float) -> void:
 	if trigger_value > 0.5 and fire_cooldown <= 0.0:  # RT pressed
 		shoot()
 		fire_cooldown = fire_rate
+	
+	# Handle special shot (LT trigger)
+	special_fire_cooldown -= delta
+	var special_trigger_value = Input.get_joy_axis(0, JOY_AXIS_TRIGGER_LEFT)
+	if special_trigger_value > 0.5 and special_fire_cooldown <= 0.0:  # LT pressed
+		if special_shot_queue.size() > 0:
+			shoot_special()
+			special_fire_cooldown = special_fire_rate
 	
 	# Handle forward/backward movement (Left analog stick)
 	var direction: float = -Input.get_joy_axis(0, JOY_AXIS_LEFT_Y)  # Negative because up is -1
@@ -85,3 +107,38 @@ func shoot() -> void:
 	
 	# Add to scene
 	get_parent().add_child(projectile)
+
+func shoot_special() -> void:
+	# Get the next special shot from the queue
+	var special_shot_scene = special_shot_queue.pop_front()
+	
+	# Create and configure special projectile
+	var projectile = special_shot_scene.instantiate()
+	
+	# Set shooter reference to ignore collision
+	projectile.shooter = self
+	
+	# Position at cannon tip
+	if tank_cannon:
+		projectile.global_position = tank_cannon.global_position
+		projectile.rotation = tank_cannon.rotation
+	else:
+		# Fallback: use right stick for aim direction
+		var aim_x = Input.get_joy_axis(0, JOY_AXIS_RIGHT_X)
+		var aim_y = Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
+		var aim_direction = Vector2(aim_x, aim_y)
+		projectile.global_position = global_position
+		projectile.rotation = aim_direction.angle()
+	
+	# Add to scene
+	get_parent().add_child(projectile)
+
+func add_special_shot(special_shot_scene: PackedScene) -> void:
+	special_shot_queue.append(special_shot_scene)
+
+func _on_power_up_area_entered(area: Area2D) -> void:
+	if area.is_in_group("power_up"):
+		# Add the power-up's special shot to the queue
+		add_special_shot(area.special_shot_scene)
+		# Remove the power-up from the scene
+		area.queue_free()

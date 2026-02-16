@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://c5jvh2jyoqwm"]
+
+[ext_resource type="Script" path="res://fast_shot.gd" id="1_fast"]
+[ext_resource type="Texture2D" uid="uid://b03s7nf1wj40x" path="res://assets/tank_test.png" id="2_texture"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fast"]
+radius = 8.0
+
+[node name="FastShot" type="Area2D"]
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("1_fast")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_fast")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 0.8, 0.3, 1)
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("2_texture")

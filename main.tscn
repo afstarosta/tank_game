@@ -2,7 +2,9 @@
 
 [ext_resource type="Script" uid="uid://b860p735de3yn" path="res://tank.gd" id="1_tank_script"]
 [ext_resource type="Texture2D" uid="uid://bn6yobeaeypbc" path="res://assets/tank_test.png" id="2_tank_texture"]
-[ext_resource type="PackedScene" path="res://block.tscn" id="3_block_scene"][ext_resource type="Script" path="res://game_manager.gd" id="4_game_manager_script"]
+[ext_resource type="PackedScene" path="res://block.tscn" id="3_block_scene"]
+[ext_resource type="Script" uid="uid://ckdbkkx0axngp" path="res://game_manager.gd" id="4_game_manager_script"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
 size = Vector2(16, 16)
 
@@ -34,9 +36,12 @@ region = Rect2(80, 0, 16, 16)
 atlas = ExtResource("2_tank_texture")
 region = Rect2(96, 0, 16, 16)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_pickup"]
+radius = 30.0
+
 [node name="Main" type="Node2D" unique_id=659521943]
 
-[node name="GameManager" type="Node" parent="."]
+[node name="GameManager" type="Node" parent="." unique_id=1247869384]
 script = ExtResource("4_game_manager_script")
 
 [node name="Tank" type="CharacterBody2D" parent="." unique_id=810127514]
@@ -74,6 +79,13 @@ metadata/independent_rotation = true
 position = Vector2(0, -6)
 texture = SubResource("AtlasTexture_7")
 
+[node name="PickupArea" type="Area2D" parent="Tank"]
+collision_layer = 2
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Tank/PickupArea"]
+shape = SubResource("CircleShape2D_pickup")
+
 [node name="Block" parent="." unique_id=1030840395 instance=ExtResource("3_block_scene")]
 position = Vector2(240, 160)
 
@@ -85,3 +97,5 @@ position = Vector2(240, 80)
 
 [node name="Block4" parent="." unique_id=1322729537 instance=ExtResource("3_block_scene")]
 position = Vector2(80, 240)
+
+[connection signal="area_entered" from="Tank/PickupArea" to="Tank" method="_on_power_up_area_entered"]

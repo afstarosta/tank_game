@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=3 uid="uid://dpv8yh1jyoqws"]
+
+[ext_resource type="Script" path="res://tank.gd" id="1_tank"]
+[ext_resource type="Texture2D" uid="uid://b03s7nf1wj40x" path="res://assets/tank_test.png" id="2_texture"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tank"]
+size = Vector2(40, 40)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pickup"]
+radius = 30.0
+
+[node name="Tank" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1_tank")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_tank")
+
+[node name="TankBody" type="Sprite2D" parent="."]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_texture")
+
+[node name="TankCannon" type="Sprite2D" parent="."]
+position = Vector2(15, 0)
+scale = Vector2(0.2, 0.1)
+texture = ExtResource("2_texture")
+
+[node name="PickupArea" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupArea"]
+shape = SubResource("CircleShape2D_pickup")
+
+[connection signal="area_entered" from="PickupArea" to="." method="_on_power_up_area_entered"]
