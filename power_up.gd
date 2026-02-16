@@ -14,7 +14,7 @@ enum PowerUpType {
 
 # Visual settings
 @export var rotation_speed: float = 2.0
-@export var bob_speed: float = 2.0
+@export var bob_speed: float = 1.0
 @export var bob_amount: float = 10.0
 
 var initial_y: float
@@ -53,9 +53,6 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	time += delta
-	
-	# Rotate the power-up
-	rotation += rotation_speed * delta
 	
 	# Bob up and down
 	position.y = initial_y + sin(time * bob_speed) * bob_amount

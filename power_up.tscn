@@ -17,11 +17,3 @@ shape = SubResource("CircleShape2D_1")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("2_power_up")
-
-[node name="Label" type="Label" parent="."]
-offset_left = -20.0
-offset_top = -30.0
-offset_right = 20.0
-offset_bottom = -10.0
-text = "PWR"
-horizontal_alignment = 1

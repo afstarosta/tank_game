@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 # Movement settings
-@export var move_speed: float = 200.0
+@export var move_speed: float = 150.0
 @export var rotation_speed: float = 2.0
 
 # Shooting settings
@@ -25,11 +25,10 @@ const FastShot = preload("res://fast_shot.tscn")
 @onready var pickup_area: Area2D = get_node_or_null("PickupArea")
 
 func _ready() -> void:
-	# Connect pickup area signal
+	# Enable pickup area monitoring (connection is done in scene file)
 	if pickup_area:
 		pickup_area.monitoring = true
 		pickup_area.monitorable = true
-		pickup_area.area_entered.connect(_on_power_up_area_entered)
 
 func _process(delta: float) -> void:
 	# Handle rotation (LB/RB bumpers)
